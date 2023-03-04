@@ -6,14 +6,24 @@ on:
       - '*'
 
 jobs:
-  - name: upload darwin artifact
-    uses: actions/upload-release-asset@v1
-    env:
-      GITHUB_TOKEN: ${{ github.token }}
-    with:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
-      asset_path: a.txt
-      asset_name: a.txt
-      # asset_content_type: application/gzip
-      asset_content_type: text/plain
+  build_release:
+    name: build_release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # - name: version
+      #   run: echo "::set-output name=version::$(cat ./version.txt)"
+      #   id: version
+      - name: create stuff
+        run: ls -alFR > a.txt    
+      - name: upload darwin artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: a.txt
+          asset_name: a.txt
+          # asset_content_type: application/gzip
+          asset_content_type: text/plain
 
